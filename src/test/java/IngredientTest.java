@@ -2,7 +2,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.mockito.Mockito;
 import praktikum.Ingredient;
 import praktikum.IngredientType;
 
@@ -23,7 +22,7 @@ public class IngredientTest {
         this.price = price;
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "Type: {0}, Name: {1}, Price: {2}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {IngredientType.SAUCE, "hot sauce", 100f},
@@ -31,20 +30,42 @@ public class IngredientTest {
                 {IngredientType.SAUCE, "chili sauce", 300f},
                 {IngredientType.FILLING, "cutlet", 100f},
                 {IngredientType.FILLING, "dinosaur", 200f},
-                {IngredientType.FILLING, "sausage", 300f},
+                {IngredientType.FILLING, "sausage", 300f}
         });
     }
 
     @Test
-    public void testIngredientProperties() {
-        Ingredient ingredient = Mockito.mock(Ingredient.class);
+    public void testGetType() {
+        Ingredient ingredient = new Ingredient(type, name, price);
+        Assert.assertEquals("Type should match", type, ingredient.getType());
+    }
 
-        Mockito.when(ingredient.getType()).thenReturn(type);
-        Mockito.when(ingredient.getName()).thenReturn(name);
-        Mockito.when(ingredient.getPrice()).thenReturn(price);
+    @Test
+    public void testGetName() {
+        Ingredient ingredient = new Ingredient(type, name, price);
+        Assert.assertEquals("Name should match", name, ingredient.getName());
+    }
 
-        Assert.assertEquals(type, ingredient.getType());
-        Assert.assertEquals(name, ingredient.getName());
-        Assert.assertEquals(price, ingredient.getPrice(), DELTA);
+    @Test
+    public void testGetPrice() {
+        Ingredient ingredient = new Ingredient(type, name, price);
+        Assert.assertEquals("Price should match", price, ingredient.getPrice(), DELTA);
+    }
+
+
+    @Test
+    public void testIngredientTypeValues() {
+        IngredientType[] values = IngredientType.values();
+        Assert.assertEquals("Should have exactly 2 values", 2, values.length);
+        Assert.assertEquals("SAUCE should exist", IngredientType.SAUCE, IngredientType.valueOf("SAUCE"));
+        Assert.assertEquals("FILLING should exist", IngredientType.FILLING, IngredientType.valueOf("FILLING"));
+    }
+
+    @Test
+    public void testIngredientTypeContainsCorrectValues() {
+        Assert.assertTrue("Should contain SAUCE",
+                Arrays.asList(IngredientType.values()).contains(IngredientType.SAUCE));
+        Assert.assertTrue("Should contain FILLING",
+                Arrays.asList(IngredientType.values()).contains(IngredientType.FILLING));
     }
 }

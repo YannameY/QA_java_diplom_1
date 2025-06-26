@@ -1,4 +1,5 @@
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -12,6 +13,7 @@ public class BunTest {
 
     private final String name;
     private final float price;
+    private Bun bun;
     private static final float DELTA = 0.01f;
 
     public BunTest(String name, float price) {
@@ -19,7 +21,7 @@ public class BunTest {
         this.price = price;
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "Тестовые данные: {0} - цена: {1}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {"black bun", 100f},
@@ -28,15 +30,18 @@ public class BunTest {
         });
     }
 
+    @Before
+    public void setUp() {
+        bun = new Bun(name, price);
+    }
+
     @Test
     public void testGetName() {
-        Bun bun = new Bun(name, price);
         Assert.assertEquals(name, bun.getName());
     }
 
     @Test
     public void testGetPrice() {
-        Bun bun = new Bun(name, price);
         Assert.assertEquals(price, bun.getPrice(), DELTA);
     }
 }
