@@ -54,17 +54,28 @@ public class IngredientTest {
 
 
     @Test
-    public void testIngredientTypeValues() {
-        IngredientType[] values = IngredientType.values();
-        Assert.assertEquals("Should have exactly 2 values", 2, values.length);
+    public void testValuesCount() {
+        Assert.assertEquals("Should have exactly 2 values", 2, IngredientType.values().length);
+    }
+
+    @Test
+    public void testSauceValueExists() {
         Assert.assertEquals("SAUCE should exist", IngredientType.SAUCE, IngredientType.valueOf("SAUCE"));
+    }
+
+    @Test
+    public void testFillingValueExists() {
         Assert.assertEquals("FILLING should exist", IngredientType.FILLING, IngredientType.valueOf("FILLING"));
     }
 
     @Test
-    public void testIngredientTypeContainsCorrectValues() {
+    public void testContainsSauce() {
         Assert.assertTrue("Should contain SAUCE",
                 Arrays.asList(IngredientType.values()).contains(IngredientType.SAUCE));
+    }
+
+    @Test
+    public void testContainsFilling() {
         Assert.assertTrue("Should contain FILLING",
                 Arrays.asList(IngredientType.values()).contains(IngredientType.FILLING));
     }
